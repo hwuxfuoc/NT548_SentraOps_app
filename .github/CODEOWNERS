@@ -1,0 +1,17 @@
+# CODEOWNERS — tự động assign reviewer khi mở PR
+# Cú pháp: <pattern> <@github-username>
+# Thay NHAN_GITHUB và DONG_GITHUB bằng username thật của từng người.
+
+# Infra & App (Vai A — Nhân)
+/app/                   @NHAN_GITHUB
+/tests/                 @NHAN_GITHUB
+/helm/                  @NHAN_GITHUB
+/terraform/             @NHAN_GITHUB
+Dockerfile              @NHAN_GITHUB
+
+# CI/CD Security (Vai B — Phước)
+/.github/               @hwuxfuoc
+
+# LLM Security & Monitoring (Vai C — Đồng)
+/redteam/               @DONG_GITHUB
+/monitoring/            @DONG_GITHUB
