@@ -5,7 +5,7 @@ output "public_ip" {
 
 output "ssh_command" {
   description = "SSH command to connect to the instance"
-  value       = "ssh -i sentra.pem ubuntu@${aws_eip.k3s.public_ip}"
+  value       = "ssh -i ~/Downloads/key.pem ubuntu@${aws_eip.k3s.public_ip}"
 }
 
 output "k3s_api" {
