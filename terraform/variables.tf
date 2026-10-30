@@ -13,7 +13,7 @@ variable "instance_type" {
 variable "key_name" {
   description = "EC2 key pair name (must exist in the region)"
   type        = string
-  default     = "sentra"
+  default     = "key"
 }
 
 variable "project_name" {
