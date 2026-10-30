@@ -40,6 +40,14 @@ resource "aws_instance" "k3s" {
   root_block_device {
     volume_size = 20
     volume_type = "gp2"
+    encrypted   = true
+  }
+
+  # Require IMDSv2 to prevent SSRF → credential theft via instance metadata
+  metadata_options {
+    http_endpoint               = "enabled"
+    http_tokens                 = "required"
+    http_put_response_hop_limit = 1
   }
 
   tags = {

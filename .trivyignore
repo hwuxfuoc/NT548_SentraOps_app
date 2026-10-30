@@ -1,0 +1,15 @@
+# Accepted risks — student project, documented reasons
+# Review before production use. Expiry: 2027-01-31
+
+# AWS-0104: Security group egress unrestricted (0.0.0.0/0)
+# Reason: k3s single-node cluster requires unrestricted outbound to pull
+#         container images from GHCR/Docker Hub and download packages.
+#         Restricting egress by CIDR is impractical for a public registry.
+AVD-AWS-0104
+
+# AWS-0107: SSH ingress open to 0.0.0.0/0
+# Reason: Academic environment with dynamic IPs — students connect from
+#         university, home, and mobile networks. Key-based auth only
+#         (PasswordAuthentication disabled by Ubuntu default + user_data).
+#         Production should restrict to a bastion or VPN CIDR.
+AVD-AWS-0107
