@@ -4,25 +4,21 @@ on:
   pull_request:
     branches: [main]
 
-# Hủy run cũ nếu có run mới trên cùng PR
 concurrency:
   group: ci-pr-${{ github.ref }}
   cancel-in-progress: true
 
-# Quyền tối thiểu
 permissions:
   contents: read
 
 jobs:
-  # Tuần 1: lint + unit test + build image (chưa push)
   lint-and-test:
     name: Lint & Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: pip
@@ -34,7 +30,7 @@ jobs:
         run: pip install ruff && ruff check app/
 
       - name: Unit tests
-        run: pip install pytest && pytest tests/ -v
+        run: pip install pytest httpx && pytest tests/ -v
 
   build-image:
     name: Build Image
@@ -46,7 +42,51 @@ jobs:
       - name: Build Docker image
         run: docker build -t sentraops-app:${{ github.sha }} .
 
-  # Tuần 2: security gates — sẽ thêm vào part tiếp theo
-  # - Gitleaks (secret scanning)
-  # - Semgrep (SAST)
-  # - Trivy (dependency + IaC)
+  secret-scan:
+    name: Secret Scan (Gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  sast:
+    name: SAST (Semgrep)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Semgrep
+        uses: semgrep/semgrep-action@v1
+        with:
+          config: p/default
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+
+  dependency-scan:
+    name: Dependency Scan (Trivy)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Trivy — scan filesystem (dependencies)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: .
+          severity: HIGH,CRITICAL
+          exit-code: "1"
+          ignore-unfixed: true
+
+      - name: Trivy — scan IaC (Terraform, Helm)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: config
+          scan-ref: .
+          severity: HIGH,CRITICAL
+          exit-code: "1"
