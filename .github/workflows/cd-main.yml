@@ -44,3 +44,16 @@ jobs:
           docker tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
                      ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+      - name: Bump image tag in gitops repo
+        env:
+          GITOPS_PAT: ${{ secrets.GITOPS_PAT }}
+        run: |
+          git clone https://x-access-token:${GITOPS_PAT}@github.com/hwuxfuoc/NT548_SentraOps_gitops.git gitops
+          cd gitops
+          sed -i "s|tag:.*|tag: \"${{ github.sha }}\"|" dev/values.yaml
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add dev/values.yaml
+          git commit -m "ci: bump sentraops-app to ${{ github.sha }}"
+          git push
