@@ -50,7 +50,3 @@ Quy tắc:
 - Điền đủ 3 mục trong template: **What**, **Why**, **Verify**.
 - Giữ mỗi PR tập trung vào một công việc.
 - PR cần ít nhất 1 approval và tất cả status check xanh trước khi merge.
-
-## Ownership
-
-Xem [CODEOWNERS](.github/CODEOWNERS) để biết ai review phần nào.
