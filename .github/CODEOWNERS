@@ -1,0 +1,12 @@
+# CI/CD, pipeline, security gates — Phước review
+/.github/          @hwuxfuoc
+/redteam/          @hwuxfuoc
+
+# App, Terraform, Helm — Nhân review
+/app/              @NHAN_GITHUB
+/terraform/        @NHAN_GITHUB
+/helm/             @NHAN_GITHUB
+Dockerfile         @NHAN_GITHUB
+
+# Monitoring và LLM security — Đồng review
+/monitoring/       @DONG_GITHUB
