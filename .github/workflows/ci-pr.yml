@@ -1,0 +1,46 @@
+name: CI — Pull Request
+
+on:
+  pull_request:
+    branches: [main]
+
+# Hủy run cũ nếu có commit mới vào cùng PR — tiết kiệm Action minutes
+concurrency:
+  group: ci-pr-${{ github.ref }}
+  cancel-in-progress: true
+
+# Least privilege: chỉ đọc code, không write
+permissions:
+  contents: read
+
+jobs:
+  lint-and-test:
+    name: Lint & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2f  # v5.3.0
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r app/requirements.txt ruff pytest httpx
+
+      - name: Lint
+        run: ruff check app/
+
+      - name: Test
+        run: pytest tests/ -v
+
+  build-image:
+    name: Build Image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Build Docker image
+        run: |
+          docker build -t sentraops-app:${{ github.sha }} .
+          echo "Image built: sentraops-app:${{ github.sha }}"
