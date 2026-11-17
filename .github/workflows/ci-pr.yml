@@ -50,7 +50,7 @@ jobs:
         with:
           fetch-depth: 0  # cần full history để phát hiện secret trong commit cũ
 
-      - uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196ca456c9f  # v2.3.4
+      - uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}  # optional, bỏ nếu không có
@@ -74,7 +74,7 @@ jobs:
 
       # Scan 1: dependency của code (pip, npm,...)
       - name: Trivy - filesystem scan
-        uses: aquasecurity/trivy-action@6e7b7d1fd3e4fef0c5fa8cce1229c54b2c9bd0d8  # v0.24.0
+        uses: aquasecurity/trivy-action@v0.24.0
         with:
           scan-type: fs
           scan-ref: .
@@ -93,7 +93,7 @@ jobs:
 
       # Scan 2: IaC (Terraform, Helm, Dockerfile)
       - name: Trivy - IaC config scan
-        uses: aquasecurity/trivy-action@6e7b7d1fd3e4fef0c5fa8cce1229c54b2c9bd0d8  # v0.24.0
+        uses: aquasecurity/trivy-action@v0.24.0
         with:
           scan-type: config
           scan-ref: .
