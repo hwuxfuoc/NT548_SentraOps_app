@@ -1,4 +1,4 @@
-# SentraOps — App Repo
+# SentraOps: App Repo
 
 DevSecOps & LLMOps pipeline cho ứng dụng Gen-AI RAG trên Kubernetes.
 
@@ -56,13 +56,13 @@ NT548_SentraOps_app/
 ├── app/                  ← FastAPI application code
 │   ├── main.py
 │   ├── rag.py            (thêm sau)
-│   ├── guardrail.py      (thêm sau — Vai C)
+│   ├── guardrail.py      (thêm sau, Vai C)
 │   └── requirements.txt
 ├── tests/                ← pytest test suite
-├── helm/sentraops/       ← Helm chart (thêm sau — Vai A)
-├── terraform/            ← IaC cho EC2 k3s (thêm sau — Vai A)
-├── redteam/              ← promptfoo test suite (thêm sau — Vai C)
-├── monitoring/           ← Prometheus/Grafana config (thêm sau — Vai C)
+├── helm/sentraops/       ← Helm chart (thêm sau, Vai A)
+├── terraform/            ← IaC cho EC2 k3s (thêm sau, Vai A)
+├── redteam/              ← promptfoo test suite (thêm sau, Vai C)
+├── monitoring/           ← Prometheus/Grafana config (thêm sau, Vai C)
 ├── .github/
 │   ├── workflows/
 │   │   ├── ci-pr.yml     ← CI chạy khi mở PR
@@ -82,9 +82,9 @@ NT548_SentraOps_app/
 
 | Vai | Người | Phụ trách |
 |---|---|---|
-| A — Infra & App | Nhân | Terraform, k3s, Helm, FastAPI + RAG + Ollama |
-| B — CI/CD Security | Phước | GitHub Actions, security gates, ArgoCD, Kyverno, NetworkPolicy |
-| C — LLM Security & Monitoring | Đồng | promptfoo, guardrail, Prometheus, Grafana |
+| A: Infra & App | Nhân | Terraform, k3s, Helm, FastAPI + RAG + Ollama |
+| B: CI/CD Security | Phước | GitHub Actions, security gates, ArgoCD, Kyverno, NetworkPolicy |
+| C: LLM Security & Monitoring | Đồng | promptfoo, guardrail, Prometheus, Grafana |
 
 ---
 
@@ -118,14 +118,14 @@ docker compose up -d
 
 ## Pipeline CI/CD
 
-**CI (ci-pr.yml)** — chạy khi mở hoặc update Pull Request:
+**CI (ci-pr.yml):** chạy khi mở hoặc update Pull Request:
 - Lint với `ruff`, unit test với `pytest`
 - Secret scan: Gitleaks quét toàn bộ git history
 - SAST: Semgrep với ruleset `p/default`
 - Dependency scan: Trivy quét `app/requirements.txt`
 - IaC scan: Trivy quét `terraform/` và `helm/`
 
-**CD (cd-main.yml)** — chạy khi merge vào `main`:
+**CD (cd-main.yml):** chạy khi merge vào `main`:
 - Build Docker image, tag bằng commit SHA
 - Trivy scan image
 - ModelScan kiểm tra model artifact
@@ -148,4 +148,4 @@ Xem hướng dẫn đóng góp đầy đủ tại [CONTRIBUTING.md](CONTRIBUTING
 
 ## Repo liên quan
 
-- [NT548_SentraOps_gitops](https://github.com/hwuxfuoc/NT548_SentraOps_gitops) — GitOps manifests, ArgoCD đọc từ đây để deploy lên cluster
+- [NT548_SentraOps_gitops](https://github.com/hwuxfuoc/NT548_SentraOps_gitops): GitOps manifests, ArgoCD đọc từ đây để deploy lên cluster
