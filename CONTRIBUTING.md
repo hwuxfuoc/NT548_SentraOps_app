@@ -4,7 +4,7 @@
 
 Tất cả công việc làm trên feature branch, không push thẳng lên `main`.
 
-Format: `<type>/<mô-tả-ngắn>` — dùng tiếng Anh, kebab-case.
+Format: `<type>/<mô-tả-ngắn>`, dùng tiếng Anh, kebab-case.
 
 | Type | Dùng khi |
 |---|---|
@@ -39,4 +39,4 @@ Ví dụ:
 2. Mở PR trên GitHub, điền đầy đủ 3 mục trong template (What / Why / Verify)
 3. Chờ CI pipeline xanh hết
 4. Chờ ít nhất 1 approval từ reviewer (CODEOWNERS tự động assign)
-5. Merge bằng "Squash and merge" hoặc "Merge commit" — không dùng rebase merge
+5. Merge bằng "Squash and merge" hoặc "Merge commit", không dùng rebase merge
