@@ -1,0 +1,11 @@
+# Terraform state — chứa thông tin nhạy cảm, không commit
+terraform.tfstate
+terraform.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+# Giá trị thật của biến — không commit
+terraform.tfvars
+
+# Crash log
+crash.log
