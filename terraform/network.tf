@@ -2,8 +2,6 @@ resource "aws_security_group" "k3s" {
   name        = "${var.project_name}-k3s-sg"
   description = "Security group for k3s node"
 
-  # trivy:ignore:AVD-AWS-0107
-  # Intentionally open for lab/demo — single-node k3s accessible from anywhere
   ingress {
     from_port   = 22
     to_port     = 22
@@ -12,7 +10,6 @@ resource "aws_security_group" "k3s" {
     description = "SSH"
   }
 
-  # trivy:ignore:AVD-AWS-0107
   ingress {
     from_port   = 6443
     to_port     = 6443
@@ -21,7 +18,6 @@ resource "aws_security_group" "k3s" {
     description = "k3s API server"
   }
 
-  # trivy:ignore:AVD-AWS-0107
   ingress {
     from_port   = 30080
     to_port     = 30080
@@ -30,7 +26,6 @@ resource "aws_security_group" "k3s" {
     description = "App NodePort"
   }
 
-  # trivy:ignore:AVD-AWS-0107
   ingress {
     from_port   = 30443
     to_port     = 30443
@@ -44,6 +39,7 @@ resource "aws_security_group" "k3s" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow all outbound"
   }
 
   tags = {
