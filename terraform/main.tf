@@ -34,9 +34,17 @@ resource "aws_instance" "k3s" {
   key_name               = var.key_name
   vpc_security_group_ids = [aws_security_group.k3s.id]
 
+  # Enforce IMDSv2 — prevents SSRF attacks via metadata endpoint
+  metadata_options {
+    http_tokens                 = "required"
+    http_put_response_hop_limit = 1
+    http_endpoint               = "enabled"
+  }
+
   root_block_device {
     volume_size = 45
     volume_type = "gp3"
+    encrypted   = true
   }
 
   user_data = file("${path.module}/user_data.sh")
