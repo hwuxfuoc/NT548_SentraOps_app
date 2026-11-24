@@ -1,0 +1,7 @@
+# AVD-AWS-0107: Security group ingress allows traffic from 0.0.0.0/0
+# Intentional — lab/demo cluster needs public access on 22, 6443, 30080, 30443
+AVD-AWS-0107
+
+# AVD-AWS-0104: Security group egress allows traffic to 0.0.0.0/0
+# Default allow-all egress required for EC2 to pull packages and container images
+AVD-AWS-0104

@@ -1,0 +1,7 @@
+# Copy file này thành terraform.tfvars và điền giá trị thật
+# terraform.tfvars đã bị gitignore — không commit giá trị thật lên git
+
+region        = "ap-northeast-1"
+instance_type = "t3.micro"
+key_name      = "sentraops-key"
+project_name  = "sentraops"
