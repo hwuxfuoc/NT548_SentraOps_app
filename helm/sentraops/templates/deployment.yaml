@@ -16,6 +16,7 @@ spec:
         app: {{ .Chart.Name }}
         version: {{ .Chart.AppVersion }}
     spec:
+      automountServiceAccountToken: false
       securityContext:
         seccompProfile:
           type: {{ .Values.seccompProfile.type }}

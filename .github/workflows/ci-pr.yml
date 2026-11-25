@@ -101,6 +101,7 @@ jobs:
           exit-code: "1"
           format: sarif
           output: trivy-iac.sarif
+          trivyignores: .trivyignore
 
       - name: Upload IaC SARIF
         uses: github/codeql-action/upload-sarif@v3
