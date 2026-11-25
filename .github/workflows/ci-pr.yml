@@ -91,9 +91,24 @@ jobs:
           sarif_file: trivy-fs.sarif
           category: trivy-fs
 
-      # Scan 2: IaC (Terraform, Helm, Dockerfile)
+      # Scan 2a: IaC debug — print findings to stdout (no fail) để xem finding ID
+      - name: Trivy - IaC config scan (debug stdout)
+        uses: aquasecurity/trivy-action@v0.24.0
+        with:
+          scan-type: config
+          scan-ref: .
+          severity: HIGH,CRITICAL
+          exit-code: "0"
+          format: table
+          trivyignores: .trivyignore
+
+      # Scan 2b: IaC (Terraform, Helm, Dockerfile) — SARIF upload + enforce
+      # env TRIVY_SEVERITY workaround: trivy-action@v0.24.0 SARIF builder doesn't forward --severity
       - name: Trivy - IaC config scan
         uses: aquasecurity/trivy-action@v0.24.0
+        env:
+          TRIVY_SEVERITY: HIGH,CRITICAL
+          TRIVY_IGNOREFILE: .trivyignore
         with:
           scan-type: config
           scan-ref: .
@@ -101,6 +116,7 @@ jobs:
           exit-code: "1"
           format: sarif
           output: trivy-iac.sarif
+          trivyignores: .trivyignore
 
       - name: Upload IaC SARIF
         uses: github/codeql-action/upload-sarif@v3
