@@ -1,0 +1,48 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/hwuxfuoc/sentraops-app
+  tag: "latest"       # ArgoCD override bằng SHA từ gitops/{env}/values.yaml
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 8000
+  nodePort: 30080     # http://35.75.47.226:30080/health
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 256Mi     # giới hạn chặt cho t3.micro (1GB RAM)
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+# Liveness probe: k8s restart container nếu health check fail
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 8000
+  initialDelaySeconds: 15
+  periodSeconds: 20
+  failureThreshold: 3
+
+# Readiness probe: k8s chỉ gửi traffic vào pod khi ready
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 8000
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  failureThreshold: 3
+
+# securityContext bắt buộc — Kyverno policy (part5) sẽ enforce
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false  # app cần write /tmp
+
+nameOverride: ""
+fullnameOverride: ""
