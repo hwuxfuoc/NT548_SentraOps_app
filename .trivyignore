@@ -6,6 +6,10 @@ AVD-AWS-0107
 # Default allow-all egress required for EC2 to pull packages and container images
 AVD-AWS-0104
 
+# KSV013: image tag 'latest' used
+# ArgoCD overrides tag with git SHA from gitops/{env}/values.yaml in production
+KSV013
+
 # KSV014: readOnlyRootFilesystem = false
 # App requires write access to /tmp for temporary files
 KSV014

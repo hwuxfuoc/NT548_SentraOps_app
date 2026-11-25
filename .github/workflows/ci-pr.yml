@@ -103,8 +103,12 @@ jobs:
           trivyignores: .trivyignore
 
       # Scan 2b: IaC (Terraform, Helm, Dockerfile) — SARIF upload + enforce
+      # env TRIVY_SEVERITY workaround: trivy-action@v0.24.0 SARIF builder doesn't forward --severity
       - name: Trivy - IaC config scan
         uses: aquasecurity/trivy-action@v0.24.0
+        env:
+          TRIVY_SEVERITY: HIGH,CRITICAL
+          TRIVY_IGNOREFILE: .trivyignore
         with:
           scan-type: config
           scan-ref: .
