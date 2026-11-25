@@ -5,3 +5,11 @@ AVD-AWS-0107
 # AVD-AWS-0104: Security group egress allows traffic to 0.0.0.0/0
 # Default allow-all egress required for EC2 to pull packages and container images
 AVD-AWS-0104
+
+# KSV014: readOnlyRootFilesystem = false
+# App requires write access to /tmp for temporary files
+KSV014
+
+# KSV020: runAsUser < 10000
+# Using UID 1000 — standard non-root user, acceptable for lab/demo
+KSV020

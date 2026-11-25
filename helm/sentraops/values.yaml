@@ -43,6 +43,13 @@ securityContext:
   runAsUser: 1000
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false  # app cần write /tmp
+  capabilities:
+    drop:
+      - ALL
+
+# seccompProfile: giới hạn syscall container được phép gọi
+seccompProfile:
+  type: RuntimeDefault
 
 nameOverride: ""
 fullnameOverride: ""

@@ -16,6 +16,9 @@ spec:
         app: {{ .Chart.Name }}
         version: {{ .Chart.AppVersion }}
     spec:
+      securityContext:
+        seccompProfile:
+          type: {{ .Values.seccompProfile.type }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -30,6 +33,9 @@ spec:
             runAsUser: {{ .Values.securityContext.runAsUser }}
             allowPrivilegeEscalation: {{ .Values.securityContext.allowPrivilegeEscalation }}
             readOnlyRootFilesystem: {{ .Values.securityContext.readOnlyRootFilesystem }}
+            capabilities:
+              drop:
+                {{- toYaml .Values.securityContext.capabilities.drop | nindent 16 }}
 
           resources:
             limits:
